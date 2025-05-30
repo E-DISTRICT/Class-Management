@@ -36,12 +36,10 @@ const InstructorSchema = new mongoose.Schema({
     maxlength: 20,
     default: 'my city',
   },
-  class:{
-    type: String,
-    required: [true, 'Please provide class'],
-    maxlength: 50,
-    minlength: 3,
-  },
+  classes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Class'
+    }]
 });
 
 InstructorSchema.pre('save', async function () {
@@ -52,7 +50,7 @@ InstructorSchema.pre('save', async function () {
 
 InstructorSchema.methods.createJWT = function () {
   return jwt.sign(
-    { userId: this._id, name: this.name, class: this.class },
+    { userId: this._id, name: this.name},
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.JWT_LIFETIME,
@@ -66,3 +64,13 @@ InstructorSchema.methods.comparePassword = async function (canditatePassword) {
 };
 
 module.exports = mongoose.model('Instructor', InstructorSchema);
+
+/**
+ * To populate the 'classes' attribute when fetching an instructor by ID,
+ * use Mongoose's populate method in your query. Example usage:
+ *
+ * const Instructor = require('./Instructor');
+ * Instructor.findById(instructorId).populate('classes').exec((err, instructor) => {
+ *   // instructor.classes will be populated with Class documents
+ * });
+ */

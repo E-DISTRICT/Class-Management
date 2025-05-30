@@ -14,6 +14,7 @@ const authenticateUser = require('./middleware/authentication');
 // routers
 const instructorRouter = require('./routes/instructor');
 const studentRouter = require('./routes/student');
+const classesRouter = require('./routes/classes');
 // const jobsRouter = require('./routes/jobs');
 // error handler
 const notFoundMiddleware = require('./middleware/not-found');
@@ -29,6 +30,7 @@ app.use(xss());
 // routes
 app.use('/api/v1/instructor', instructorRouter);
 app.use('/api/v1/student', studentRouter);
+app.use('/api/v1/classes', classesRouter);
 
 
 
