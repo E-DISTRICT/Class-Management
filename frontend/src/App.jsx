@@ -6,9 +6,7 @@ import SignIn from './layouts/SignIn';
 
 function App() {
 
- 
-
-  return (
+ return (
     <Router>
       <Routes>
         <Route path="/instructor" element={<InstructorDashboard />} />
