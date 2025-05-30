@@ -36,6 +36,10 @@ const StudentSchema = new mongoose.Schema({
     maxlength: 20,
     default: 'my city',
   },
+  classes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Class'
+  }]
 });
 
 StudentSchema.pre('save', async function () {

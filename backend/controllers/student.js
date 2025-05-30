@@ -1,4 +1,5 @@
-const User = require('../models/Instructor');
+const User = require('../models/Student');
+const Class = require('../models/Class');
 const { StatusCodes } = require('http-status-codes');
 const { BadRequestError, UnauthenticatedError } = require('../errors');
 
@@ -23,6 +24,13 @@ const login = async (req, res) => {
     throw new BadRequestError('Please provide email and password');
   }
   const user = await User.findOne({ email });
+  const classes = [];
+  if (user) {
+    for (let classItem of user.classes) {
+      course = await Class.find({ _id: classItem });
+      classes.push(course);
+    }
+  }
   if (!user) {
     throw new UnauthenticatedError('Invalid Credentials');
   }
@@ -38,6 +46,7 @@ const login = async (req, res) => {
       lastName: user.lastName,
       location: user.location,
       name: user.name,
+      classes: classes,
       token,
     },
   });
