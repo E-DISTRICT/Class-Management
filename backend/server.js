@@ -15,7 +15,7 @@ const authenticateUser = require('./middleware/authentication');
 const instructorRouter = require('./routes/instructor');
 const studentRouter = require('./routes/student');
 const classesRouter = require('./routes/classes');
-// const jobsRouter = require('./routes/jobs');
+const assignmentRouter = require('./routes/assignment');
 // error handler
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
@@ -31,6 +31,7 @@ app.use(xss());
 app.use('/api/v1/instructor', instructorRouter);
 app.use('/api/v1/student', studentRouter);
 app.use('/api/v1/classes', classesRouter);
+app.use('/api/v1/assignment', assignmentRouter);
 
 
 
