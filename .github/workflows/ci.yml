@@ -1,4 +1,4 @@
-name: CI - Frontend Build
+name: CI - Frontend and Backend
 
 on:
   push:
@@ -7,8 +7,12 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  frontend:
+    name: Test & Build Frontend
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
 
     steps:
       - name: Checkout code
@@ -19,14 +23,33 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: Install frontend dependencies
         run: npm install
-        working-directory: ./frontend
 
-      - name: Run Jest tests
+      - name: Run frontend tests
         run: npm test
-        working-directory: ./frontend
 
-      - name: Build the app
+      - name: Build frontend app
         run: npm run build
-        working-directory: ./frontend
+
+  backend:
+    name: Test Backend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install backend dependencies
+        run: npm install
+
+      - name: Run backend tests
+        run: npm test
