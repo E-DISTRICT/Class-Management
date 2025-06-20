@@ -7,7 +7,7 @@ MONGO_URI = mongodb://host.docker.internal:27017/class-management
 JWT_SECRET=b012925474e50beefe7fc66b01b50bb5df2685d9ef26eaf7e864f1e665f5b108
 JWT_LIFETIME=2d
 # How to run
-with docker up and running run docker-compose --build
+with docker up and running run docker-compose up --build
 # Tools used
 React.js, Express.js, MongoDB, Docker, Github CI/CD
 # Wireframe
