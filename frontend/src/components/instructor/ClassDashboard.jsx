@@ -25,7 +25,7 @@ export default function ClassDashboard({ onSelectClass }) {
 
     const fetchClasses = async () => {
         try {
-        const response = await fetch(`http://class-management-backend.onrender.com/api/v1/classes/instructor/${instructorId}`);
+        const response = await fetch(`https://class-management-backend.onrender.com/api/v1/classes/instructor/${instructorId}`);
         const data = await response.json();
         setFetchedClasses(data.classes); // adjust based on your API's return shape
         } catch (err) {
@@ -46,7 +46,7 @@ export default function ClassDashboard({ onSelectClass }) {
     const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        const response = await fetch('http://class-management-backend.onrender.com/api/v1/classes/createClass', {
+        const response = await fetch('https://class-management-backend.onrender.com/api/v1/classes/createClass', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, grade, instructor: instructorId }),
