@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: class-management-backend
+    env: docker
+    region: oregon
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    buildFilter:
+      paths:
+        - backend/**/*
+    envVars:
+      - key: MONGO_URI
+        value: mongodb+srv://evanmrosas:PrIq66YNskldWIBk@classmanagementdb.xettx9m.mongodb.net/?retryWrites=true&w=majority&appName=ClassManagementDB
+      - key: PORT
+        value: 3000
+      - key: JWT_SECRET
+        value: supersecurekey123
+      - key: JWT_LIFETIME
+        value: 1d
+
+  - type: web
+    name: class-management-frontend
+    env: docker
+    region: oregon
+    plan: free
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    buildFilter:
+      paths:
+        - frontend/**/*
+    envVars: []
