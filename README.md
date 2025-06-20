@@ -11,8 +11,7 @@ with docker up and running run docker-compose up --build
 # Tools used
 React.js, Express.js, MongoDB, Docker, Github CI/CD
 # Wireframe
-![Screenshot 2025-06-20 105356](https://github.com/user-attachments/assets/ac226f5a-ab5b-4110-8ea7-ca9405c347bd)
-
+![Screenshot 2025-06-20 130437](https://github.com/user-attachments/assets/13a6395c-12a1-4c6d-a059-7cc695a2b3fe)
 # Deployed App Link
 https://class-management-frontend.onrender.com/
 # Authors
