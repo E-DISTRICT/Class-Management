@@ -67,7 +67,7 @@ export default function SlotPropsSignIn() {
 
                 try {
                   const response = await fetch(
-                    `http://localhost:3000/api/v1/${userType}/login`,
+                    `http://class-management-backend.onrender.com/api/v1/${userType}/login`,
                     {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },

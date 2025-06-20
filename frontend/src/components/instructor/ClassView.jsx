@@ -47,7 +47,7 @@ locales,
 useEffect(() => {
 const fetchStudents = async () => {
 try {
-    const res = await fetch(`http://localhost:3000/api/v1/classes/students/${selectedClass._id}`);
+    const res = await fetch(`http://class-management-backend.onrender.com/api/v1/classes/students/${selectedClass._id}`);
     const data = await res.json();
     setStudents(data.students || []);
 } catch (err) {
@@ -70,7 +70,7 @@ const fetchAssignments = async () => {
   const token = localStorage.getItem('token');
   try {
     const response = await fetch(
-      `http://localhost:3000/api/v1/assignment/getAllAssignments/${selectedClass._id}`,
+      `http://class-management-backend.onrender.com/api/v1/assignment/getAllAssignments/${selectedClass._id}`,
       {
         method: 'GET',
         headers: {
@@ -96,7 +96,7 @@ fetchAssignments();
 
 const handleCreateAssignment = async () => {
 try {
-const response = await fetch('http://localhost:3000/api/v1/assignment/createAssignment', {
+const response = await fetch('http://class-management-backend.onrender.com/api/v1/assignment/createAssignment', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -118,7 +118,7 @@ console.error(error.message);
 const handleUpdateAssignment = async () => {
 const token = localStorage.getItem('token');
 try {
-    const response = await fetch(`http://localhost:3000/api/v1/assignment/updateAssignment/${editingId}`, {
+    const response = await fetch(`http://class-management-backend.onrender.com/api/v1/assignment/updateAssignment/${editingId}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, },
     body: JSON.stringify({
@@ -146,7 +146,7 @@ if (!window.confirm('Are you sure you want to delete this assignment?')) return;
 const token = localStorage.getItem('token');
 
     try {
-    const response = await fetch(`http://localhost:3000/api/v1/assignment/deleteAssignment/${id}`, {
+    const response = await fetch(`http://class-management-backend.onrender.com/api/v1/assignment/deleteAssignment/${id}`, {
         method: 'DELETE',
         headers: {
         Authorization: `Bearer ${token}`,

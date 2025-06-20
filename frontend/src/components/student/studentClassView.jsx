@@ -27,7 +27,7 @@ const fetchAssignments = async () => {
 const token = localStorage.getItem('token');
 try {
     const response = await fetch(
-    `http://localhost:3000/api/v1/assignment/getAllAssignments/${selectedClass._id}`,
+    `http://class-management-backend.onrender.com/api/v1/assignment/getAllAssignments/${selectedClass._id}`,
     {
         headers: {
         Authorization: `Bearer ${token}`,
