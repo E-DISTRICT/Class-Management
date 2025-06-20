@@ -1,5 +1,5 @@
 # Class-Management
-Class-Management Application is a full stack app designed to manage students'grades. It has separate portal for teachers and students.Both of them can sigh on,log in and logged out.
+Class-Management Application is a Full Stack app designed to manage students'grades. It has separate portal for teachers and students.Both of them can sign on,log in and logged out.
 # Getting Started 
 Clone our repository and you can begin
 make a .env file and add the link to your mongo db database, jwt secret and jwt lifetime like:
