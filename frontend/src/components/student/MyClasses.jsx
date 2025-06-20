@@ -17,7 +17,7 @@ export default function MyClasses() {
   const fetchEnrolledClasses = async () => {
     if (!studentId) return console.warn('No student ID found.');
     try {
-      const res = await fetch(`https://class-management-backend.onrender.com/api/v1/classes/student/${studentId}`);
+      const res = await fetch(`https://class-management-backend-uoxs.onrender.com/api/v1/classes/student/${studentId}`);
       const data = await res.json();
       setEnrolledClasses(data.classes || []);
     } catch (err) {
@@ -28,7 +28,7 @@ export default function MyClasses() {
   const fetchAvailableClasses = async () => {
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch('https://class-management-backend.onrender.com/api/v1/classes/available', {
+      const res = await fetch('https://class-management-backend-uoxs.onrender.com/api/v1/classes/available', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -43,7 +43,7 @@ export default function MyClasses() {
   const enrollInClass = async (classId) => {
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch('https://class-management-backend.onrender.com/api/v1/classes/enroll', {
+      const res = await fetch('https://class-management-backend-uoxs.onrender.com/api/v1/classes/enroll', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -50,7 +50,7 @@ export default function RegisterPage() {
     const userType = isInstructor ? 'instructor' : 'student';
 
     try {
-      const response = await fetch(`https://class-management-backend.onrender.com/api/v1/${userType}/register`, {
+      const response = await fetch(`https://class-management-backend-uoxs.onrender.com/api/v1/${userType}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
