@@ -15,9 +15,9 @@ const apiLimiter = rateLimiter({
 
 const { createAssignment, getAssignment, updateAssignment, submitAssignment, deleteAssignment, getAllAssignments } = require('../controllers/assignment');
 router.post('/createAssignment', apiLimiter, createAssignment);
-router.get('/getAssignment/:classId/:assignmentId', apiLimiter, getAssignment);
-router.get('/getAllAssignments/:classId', apiLimiter, getAllAssignments);
-router.patch('/updateAssignment/:id', apiLimiter, updateAssignment);
-router.patch('/submitAssignment/:id', apiLimiter, submitAssignment);
-router.delete('/deleteAssignment/:id', apiLimiter, deleteAssignment);
+router.get('/getAssignment/:classId/:assignmentId', getAssignment);
+router.get('/getAllAssignments/:classId', authenticateUser, getAllAssignments);
+router.patch('/updateAssignment/:id', authenticateUser, updateAssignment);
+router.patch('/submitAssignment/:id', authenticateUser, apiLimiter, submitAssignment);
+router.delete('/deleteAssignment/:id', authenticateUser, deleteAssignment);
 module.exports = router;

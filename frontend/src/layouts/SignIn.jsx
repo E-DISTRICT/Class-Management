@@ -1,36 +1,27 @@
 import * as React from 'react';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import { useNavigate, Link } from 'react-router-dom';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { SignInPage } from '@toolpad/core/SignInPage';
-import { useMediaQuery, CssBaseline } from '@mui/material';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import {
+  CssBaseline,
+  Typography,
+  useMediaQuery,
+  ThemeProvider,
+  createTheme,
+  Box,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+} from '@mui/material';
 
-const providers = [
-  { id: 'credentials', name: 'Email and Password' },
-];
-
-function RememberMeCheckbox() {
-  return (
-    <FormControlLabel
-      label="Remember me"
-      control={
-        <Checkbox
-          name="remember"
-          value="true"
-          color="primary"
-          sx={{ padding: 0.5, '& .MuiSvgIcon-root': { fontSize: 20 } }}
-        />
-      }
-    />
-  );
-}
+const providers = [{ id: 'credentials', name: 'Email and Password' }];
 
 export default function SlotPropsSignIn() {
-  // Detect system preference
+  const navigate = useNavigate();
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const [userType, setUserType] = React.useState('instructor');
 
-  // Create theme based on system preference
   const theme = React.useMemo(
     () =>
       createTheme({
@@ -41,47 +32,80 @@ export default function SlotPropsSignIn() {
     [prefersDarkMode]
   );
 
+  const RegisterLink = () => (
+    <Typography variant="body2" sx={{ mt: 1 }}>
+      Don’t have an account?{' '}
+      <Link to="/register" style={{ textDecoration: 'none', color: '#1976d2' }}>
+        Register here
+      </Link>
+    </Typography>
+  );
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppProvider theme={theme}>
-        <SignInPage
-          signIn={(provider, formData) => {
-            if (provider.id === 'credentials') {
-              alert(
-                `Signing in with "${provider.name}" and credentials: ${formData.get('email')}, ${formData.get('password')} and checkbox value: ${formData.get('tandc')}`
-              );
-            } else {
-              return new Promise((resolve) => {
-                setTimeout(() => {
-                  resolve({ error: 'This is a fake error' });
-                }, 1000);
-              });
-            }
-            return undefined;
-          }}
-          slots={{ rememberMe: RememberMeCheckbox }}
-          slotProps={{
-            form: { noValidate: true },
-            emailField: { variant: 'standard', autoFocus: false },
-            passwordField: { variant: 'standard' },
-            submitButton: { variant: 'outlined' },
-            oAuthButton: { variant: 'contained' },
-            rememberMe: {
-              control: (
-                <Checkbox
-                  name="tandc"
-                  value="true"
-                  color="primary"
-                  sx={{ py: 1, px: 0.5, '& .MuiSvgIcon-root': { fontSize: 20 } }}
-                />
-              ),
-              color: 'textSecondary',
-              label: 'I agree with the T&C',
-            },
-          }}
-          providers={providers}
-        />
+        <Box sx={{ maxWidth: 400, mx: 'auto', mt: 6 }}>
+          {/* 🟢 This will appear above the SignInPage */}
+          <FormControl fullWidth sx={{ mb: 2 }}>
+            <InputLabel>User Type</InputLabel>
+            <Select
+              value={userType}
+              label="User Type"
+              onChange={(e) => setUserType(e.target.value)}
+            >
+              <MenuItem value="instructor">Instructor</MenuItem>
+              <MenuItem value="student">Student</MenuItem>
+            </Select>
+          </FormControl>
+
+          <SignInPage
+            signIn={async (provider, formData) => {
+              if (provider.id === 'credentials') {
+                const email = formData.get('email');
+                const password = formData.get('password');
+
+                try {
+                  const response = await fetch(
+                    `http://localhost:3000/api/v1/${userType}/login`,
+                    {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ email, password }),
+                    }
+                  );
+
+                  if (!response.ok) {
+                    const errorData = await response.json();
+                    alert(`Login failed: ${errorData.msg || 'Unknown error'}`);
+                    return;
+                  }
+
+                  const data = await response.json();
+                  console.log(`${userType} logged in:`, data);
+
+                  localStorage.setItem('token', data.user.token);
+                  localStorage.setItem(userType, JSON.stringify(data.user));
+
+                  navigate(userType === 'instructor' ? '/instructor' : '/student');
+                } catch (error) {
+                  console.error('Login error:', error);
+                  alert('Something went wrong during login.');
+                }
+              }
+            }}
+            providers={providers}
+            slots={{
+              rememberMe: RegisterLink,
+            }}
+            slotProps={{
+              form: { noValidate: true },
+              emailField: { variant: 'standard' },
+              passwordField: { variant: 'standard' },
+              submitButton: { variant: 'contained' },
+            }}
+          />
+        </Box>
       </AppProvider>
     </ThemeProvider>
   );
